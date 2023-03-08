@@ -1,0 +1,210 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Knjiga {
+public:
+    string naslov;
+    string avtor;
+    string ISBN;
+    bool check;
+    Knjiga(string a, string n, string i, bool c){
+        avtor=a; naslov=n; ISBN = i; check = c;
+    }
+};
+class narocnik {
+public:
+    string ime;
+    string priimek;
+    string patron_id;
+    void setIme(string i) {
+        ime = i;
+    }
+    string getIme() {
+        return ime;
+    }
+    void setPriimek(string p) {
+        priimek = p;
+    }
+    string getPriimek() {
+        return priimek;
+    }
+    void setID(string id ) {
+        patron_id = id;
+    }
+    string getID() {
+        return patron_id;
+    }
+
+};
+class racun{
+public:
+    int x, n;
+    string imeNaro;
+    string priimekNaro;
+
+    racun(string i,string n){
+        imeNaro = i; 
+		priimekNaro = n;
+    }
+};
+
+int main() {
+int odg;
+string odlo;
+string ime;
+int r= 5;
+int c=5;
+int size=2;
+    narocnik *Patron;
+    Patron = new narocnik[size]{
+
+    };
+    racun Transaction[2]{
+            racun("Jan", "Dajcman"),
+            racun("Anej", "Lampret")
+    };
+    Knjiga books[3] = {
+            Knjiga("Ziga Kosec ", "Sonce", "932489324", true),
+            Knjiga("Alan Milne ", "Medved", "239230932", true),
+            Knjiga("Erika Mitchell James ", "Shades", "23544356", true)
+    };
+    string upo;
+    string geslo;
+    prijava:
+    cout << "Uporabnisko ime: ";
+    cin >> upo;
+
+    cout << "Geslo: ";
+    cin >> geslo;
+
+    if(upo =="admin" && geslo =="admin") {
+        nadaljevanje:
+        cout << "Meni" << endl << "1: Izposoja" << endl << "2: Vse knjige" << endl << "3: Dodajanje clanov" << endl
+             << "4: Izpis clanov " << endl << "5: Izhod" << endl;
+        cin >> odg;
+
+        while (odg != 5) {
+            if (odg == 1) {
+                cout << "Vpisi ime knjige: ";
+                cin >> ime;
+                for (int i = 0; i < 3; i++) {
+                    if (ime == books[i].naslov) {
+                        cout << "Naslov:" << books[i].naslov << endl;
+                        cout << "Avtor:" << books[i].avtor << endl;
+                        cout << "ISBN:" << books[i].ISBN << endl;
+                        cout << "Razpolozjivost:" << books[i].check << endl;
+
+                    }
+                    if (books[i].check == true) {
+                        cout << "Zelis izposodit knjigo? Ja/Ne: " << endl;
+                        cin >> odlo;
+                        if (odlo == "Ja" || "ja") {
+                            for (int x = 0; x < r; x++) {
+                                cout << "Ime narocnika: ";
+                                cin >> Transaction[x].imeNaro;
+
+                                for (int j = 0; j < c; j++) {
+                                    if (Transaction[x].imeNaro == Patron[j].getIme()) {
+
+
+                                        goto izposoja;
+                                    } else {
+
+                                        cout << "Narocnik ne obstaja." << endl << endl << endl;
+                                        cout << "Zelite nadaljevati na menu? Ja/Ne: ";
+                                        cin >> odlo;
+                                        if (odlo == "Ja" || odlo == "ja") {
+                                            goto nadaljevanje;
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        }
+                        izposoja:
+                        cout << "Cestitam, knjiga je vasa" << endl;
+                        books[i].check = false;
+
+                        cout << "Zelite nazaj na menu? Ja/Ne";
+                        cin >> odlo;
+
+                        if (odlo == "Ja" || "ja") {
+
+
+                            goto nadaljevanje;
+                        } else continue;
+                    } else if (books[i].check != true) {
+                        cout << "   Knjiga je na zalost izposojena...";
+                        cout << "Zelite nazaj na menu? Ja/Ne";
+                        cin >> odlo;
+
+                        if (odlo == "Ja" || "ja") {
+
+
+                            goto nadaljevanje;
+                        } else continue;
+                    }
+                }
+            } else if (odg == 2) {
+                for (int i = 0; i < 3; ++i) {
+                    cout << books[i].naslov;
+                    cout << books[i].avtor << endl;
+                }
+                goto nadaljevanje;
+            } else if (odg == 3) {
+                cout << "Koliko uporabnikov zelite dodati?";
+                cin >> size;
+                for (int i = 0; i < size; i++) {
+                    string ime, priimek, patron_id;
+                    cout << "Vnesi ime: ";
+                    cin >> ime;
+                    cout << "Vnesi priimek: ";
+                    cin >> priimek;
+                    cout << "Vnesi patron ID: ";
+                    cin >> patron_id;
+                    Patron[i].setIme(ime);
+                    Patron[i].setPriimek(priimek);
+                    Patron[i].setID(patron_id);
+                }
+                cout << "Zelite nadaljevati z dodajanjem novih clanov? Ja/Ne: ";
+                cin >> odlo;
+                if (odlo == "Ja" || "ja") {
+                    c++;
+
+                }  if (odlo == "Ne" || "ne") {
+                    cout << "Meni" << endl << "1: Izposoja" << endl << "2: Vse knjige" << endl << "3: Dodajanje clanov" << endl
+                         << "4: Izpis clanov " << endl << "5: Izhod" << endl;
+                    cin >> odg;
+                }
+            } else if (odg == 4) {
+                cout << "Seznam vseh clanov: " << endl;
+                for (int i = 0; i < c; i++) {
+                    cout << Patron[i].ime << " " << Patron[i].priimek << Patron[i].patron_id << endl;
+                    cout << "Zelite nazaj na menu? Ja/Ne";
+                    cin >> odlo;
+
+                    if (odlo == "Ja" || "ja") {
+
+
+                        goto nadaljevanje;
+                    } else continue;
+                }
+
+            }
+            }
+
+
+        }else if (upo != "admin" || geslo != "admin") {
+        cout << "Vnesili ste napačne podatke... se zelite vrniti? Ja/Ne: ";
+        cin >> odlo;
+        if (odlo == "Ja" || "ja") {
+            goto prijava;
+        }
+    }
+
+
+    return 0;
+}
